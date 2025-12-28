@@ -19,24 +19,20 @@
 
 <h1>Installation</h1>
 
-### Arch Linux (AUR)
+# DWU - KDE Plasma Fork
+A modified version of Daily Wallpaper Updater, tailored specifically for **KDE Plasma**.
 
+## Key Features
+* **Native KDE Support:** Uses Plasma's D-Bus interface directly. No extra daemons like `awww` or `swww` required.
+* **Multi-Monitor Sync:** Automatically updates all monitors and activities.
+* **Smart Resolution:** Uses `kscreen-doctor` to dynamically detect your screen size for perfect watermarks.
+
+## Installation
+
+### Prerequisites
+You need `python` and `git` installed.
 ```bash
-yay -S dwu
-```
-
-### Other Distros (PyPI Package)
-
-```bash
-pipx install dwu
-```
-
-### Wallpaper Backend
-
-You need to manually install a capable wallpaper backend.  
-Right now, the supported ones are `awww`, `swww`, `feh`, and `nitrogen`  
-
-If you use swww, consider switching to awww, as swww is now archived. The author's explanation is [here](https://www.lgfae.com/posts/2025-10-29-RenamingSwww.html)
+sudo pacman -S python git
 
 <h1>Usage</h1>
 
