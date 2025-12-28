@@ -2,18 +2,6 @@
   <img width="800" alt="dwu" src="https://github.com/user-attachments/assets/811da782-793d-44cb-b844-e16626077e00">
 </p>
 
-<p align="center">
-  <a href="https://aur.archlinux.org/packages/dwu">
-    <img src="https://img.shields.io/aur/version/dwu?style=flat-square" alt="AUR">
-  </a>
-  <a href="https://pypi.org/project/dwu/">
-    <img src="https://img.shields.io/pypi/v/dwu?style=flat-square" alt="PyPI">
-  </a>
-  <a href="https://github.com/starrieste/dwu/stargazers">
-    <img src="https://img.shields.io/github/stars/starrieste/dwu?style=flat-square" alt="Stars">
-  </a>
-</p>
-
 ---
 <p align=center>A CLI tool that updates your desktop wallpaper each day to the latest anime wallpaper from <a href=https://wallpaper-a-day.com>wallpaper-a-day.com</a>  </p>
 <p align=center>This is my first proper github project+fork so things may not work as intended! and most of the programing was done via AI Agents, so if that tips you off from installing and using? that's understable!</p>
