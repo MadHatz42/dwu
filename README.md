@@ -155,3 +155,36 @@ To remove it (for the current wallpaper), run the following command.
 ```bash
 dwu --credits
 ```
+
+<h1>Uninstallation</h1>
+
+To completely remove DWU from your system:
+
+**1. Stop and disable the systemd timer (if installed):**
+```bash
+systemctl --user stop dwu.timer
+systemctl --user disable dwu.timer
+systemctl --user daemon-reload
+```
+
+**2. Remove systemd files (optional cleanup):**
+```bash
+rm ~/.config/systemd/user/dwu.service
+rm ~/.config/systemd/user/dwu.timer
+rm ~/.config/systemd/user/dwu-wrapper.sh
+systemctl --user daemon-reload
+```
+
+**3. Uninstall DWU via pipx:**
+```bash
+pipx uninstall dwu
+```
+
+**4. Remove cached files (optional):**
+```bash
+# Remove wallpaper cache and metadata
+rm -r ~/.cache/dwu
+
+# Remove configuration (if you want to remove all settings)
+rm -r ~/.config/dwu
+```
