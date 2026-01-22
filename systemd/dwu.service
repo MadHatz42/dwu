@@ -1,24 +1,26 @@
 [Unit]
-Description=DWU Continuous Wallpaper Updater
+Description=DWU Wallpaper Updater (Timer-triggered)
 After=graphical-session.target
 PartOf=graphical-session.target
 
 [Service]
-Type=simple
-# IMPORTANT: Update the path below to match where dwu is installed on your system.
-# Find your path with: which dwu
-# Common locations:
-#   - /usr/bin/dwu (AUR package, system package manager) - default
-#   - /home/USER/.local/bin/dwu (pipx, pip install --user)
-ExecStart=/usr/bin/dwu --continuous --interval 3600
-Restart=on-failure
-RestartSec=10
+Type=oneshot
+# Use the wrapper script to dynamically find dwu in PATH
+# The wrapper script is installed alongside this service file
+ExecStart=%h/.config/systemd/user/dwu-wrapper.sh
+# Don't restart on failure - let the timer retry on next schedule
+Restart=no
 
 # Ensure proper environment for KDE Plasma
 # systemd user services automatically inherit environment variables from the user session,
-# including DBUS_SESSION_BUS_ADDRESS, DISPLAY (X11), and WAYLAND_DISPLAY (Wayland).
+# including DBUS_SESSION_BUS_ADDRESS, DISPLAY (X11), WAYLAND_DISPLAY (Wayland), and PATH.
 # The DISPLAY=:0 below is a fallback for X11 if not inherited.
+# Note: Make sure 'dwu' is in your PATH (e.g., via pipx ensurepath or by installing system-wide)
 Environment="DISPLAY=:0"
 
+# Logging
+StandardOutput=journal
+StandardError=journal
+
 [Install]
-WantedBy=default.target
+WantedBy=timers.target

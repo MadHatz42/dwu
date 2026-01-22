@@ -38,11 +38,29 @@ sudo pacman -S python-pipx
 sudo apt install pipx
 ```
 
-### 2. Install My Fork
+### 2. Install DWU
 
 ```bash
 pipx install git+https://github.com/MadHatz42/dwu.git
 ```
+
+### 3. Set Up Automatic Updates (Optional but Recommended)
+
+After installation, set up automatic hourly wallpaper updates:
+
+```bash
+# Get the repository (to access systemd files)
+git clone https://github.com/MadHatz42/dwu.git
+cd dwu
+
+# Install the systemd timer (works from repo root)
+./systemd/install.sh
+```
+
+This will automatically:
+- Set up a systemd timer that checks for new wallpapers every hour
+- Set the wallpaper on boot/login  
+- Work on any machine without configuration (automatically finds `dwu` in PATH via pipx)
 
 <h1>Usage</h1>
 
@@ -68,45 +86,38 @@ dwu --save-dir ~/Wallpapers
 dwu --save
 ```
 
-<h1>Continuous Mode</h1>
-I've tried to make a "Continuous Mode" like the original, I haven't done enough testing to confirm if it works 100% yet, so please report bugs or give advice on how to improve it! 
-you can use systemd in two ways:
+<h1>Automatic Wallpaper Updates (systemd Timer)</h1>
+If you didn't set up automatic updates during installation, you can do it now. The timer runs `dwu --today` once per hour to check for new wallpapers.
 
-**Option 1: Continuous Mode (Recommended)**
-Runs continuously in the background, checking for new wallpapers every hour:
-
+**Quick Install:**
 ```bash
-# Copy the service file to your systemd user directory
+# From the repository root directory
+./systemd/install.sh
+```
+
+**Manual Install:**
+```bash
+# Create systemd user directory if it doesn't exist
+mkdir -p ~/.config/systemd/user
+
+# Copy the service, timer, and wrapper script
 cp systemd/dwu.service ~/.config/systemd/user/
+cp systemd/dwu.timer ~/.config/systemd/user/
+cp systemd/dwu-wrapper.sh ~/.config/systemd/user/
+chmod +x ~/.config/systemd/user/dwu-wrapper.sh
 
-# IMPORTANT: Edit the service file to use the correct path to dwu
-# Find where dwu is installed: which dwu
-# Then edit ~/.config/systemd/user/dwu.service and update the ExecStart line
-# The default path is /usr/bin/dwu (for AUR/system packages)
-# If installed via pipx/pip --user, change to: /home/YOUR_USERNAME/.local/bin/dwu
-nano ~/.config/systemd/user/dwu.service
-
-# Reload systemd and enable the service
+# Reload systemd and enable the timer
 systemctl --user daemon-reload
-systemctl --user enable --now dwu.service
+systemctl --user enable --now dwu.timer
 
-# Check status
-systemctl --user status dwu.service
+# Check timer status
+systemctl --user status dwu.timer
+
+# Check when the timer will run next
+systemctl --user list-timers dwu.timer
 
 # View logs
 journalctl --user -u dwu.service -f
-```
-
-**Option 2: Timer-based (Hourly)**
-Runs once per hour using a timer:
-
-```bash
-# Copy both service and timer files
-cp systemd/dwu.service ~/.config/systemd/user/
-cp systemd/dwu.timer ~/.config/systemd/user/
-
-# Enable and start the timer
-systemctl --user enable --now dwu.timer
 ```
 
 **Manual Continuous Mode**
@@ -128,7 +139,8 @@ pipx ensurepath
 
 "bash: /usr/bin/dwu: No such file or directory" If you previously installed an older version of dwu, your terminal might remember the old location. Force it to forget:
 ```bash
-hash -r
+hash -r  # Clear command cache
+pipx ensurepath  # Ensure pipx bin directory is in PATH
 ```
 
 error: externally-managed-environment" or "exists in filesystem" This happens if you previously installed Python packages using sudo pip. You need to remove the conflicting system packages before pipx can work:

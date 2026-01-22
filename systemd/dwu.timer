@@ -1,9 +1,15 @@
 [Unit]
-Description=Run DWU hourly
+Description=Run DWU hourly to check for new wallpapers
+Requires=dwu.service
 
 [Timer]
+# Run every hour
 OnCalendar=hourly
+# Also run 10 seconds after boot/login to set initial wallpaper
 OnStartupSec=10
+# Add some randomization to avoid hitting the server at the same time
+# (runs between 0-5 minutes after the hour)
+RandomizedDelaySec=300
 
 [Install]
 WantedBy=timers.target
