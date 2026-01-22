@@ -2,7 +2,6 @@ import os
 import random
 import click
 import sys
-import time
 
 from dwu.config_manager import Config
 from dwu.splash import splash
@@ -35,9 +34,6 @@ def print_version(ctx, param, value):
 
 @click.option('--credits', is_flag=True, help="Display the artist and source of the current wallpaper. Removes watermark if run")
 
-@click.option('--continuous', is_flag=True, help="Continuously check for new wallpapers every hour")
-@click.option('--interval', type=click.INT, default=3600, help="Interval in seconds between checks when using --continuous (default: 3600 = 1 hour)")
-
 def main(
     status: bool,
     today: bool,
@@ -49,8 +45,6 @@ def main(
     unskip_all: bool,
     list_skipped: bool,
     credits: bool,
-    continuous: bool,
-    interval: int,
 ):
     try:
         wallman = WallpaperManager()
@@ -129,23 +123,6 @@ def main(
             if meta.add_watermark:
                 wallman.unwatermark(meta)
         
-        elif continuous:
-            click.echo(f"Starting continuous mode (checking every {interval} seconds)")
-            click.echo("Press Ctrl+C to stop")
-            
-            try:
-                while True:
-                    try:
-                        result = wallman.update_auto()
-                        print_wall_feedback(result)
-                    except Exception as e:
-                        click.secho(f"Error during wallpaper update: {e}", fg="yellow")
-                    
-                    # Wait for the specified interval (can be interrupted by Ctrl+C)
-                    time.sleep(interval)
-            except KeyboardInterrupt:
-                click.echo("\nContinuous mode stopped.")
-            
         else:
             click.secho(
                 splash,

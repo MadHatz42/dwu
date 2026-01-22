@@ -120,14 +120,6 @@ systemctl --user list-timers dwu.timer
 journalctl --user -u dwu.service -f
 ```
 
-**Manual Continuous Mode**
-You can also run continuous mode manually (useful for testing):
-
-```bash
-dwu --continuous              # Check every hour (default)
-dwu --continuous --interval 1800  # Check every 30 minutes
-```
-
 <h1>Troubleshooting</h1>
 
 If you run into issues during installation or updates, try these solutions.
