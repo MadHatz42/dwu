@@ -8,8 +8,9 @@ class ImageDownloadError(Exception):
     pass
 
 class WallpaperScraper:
-    def __init__(self, root_url: str = 'https://wallpaper-a-day.com') -> None:
+    def __init__(self, root_url: str = 'https://wallpaper-a-day.com', resolution: str | None = None) -> None:
         self._root_url = root_url
+        self._resolution = resolution
         self._client = httpx.Client(
             follow_redirects=True,
             timeout=10.0,
@@ -21,7 +22,13 @@ class WallpaperScraper:
         )
     
     def _get_posts(self):
-        response = self._client.get(self._root_url)
+        # Use tag URL if resolution is specified
+        if self._resolution:
+            url = f"{self._root_url}/tag/{self._resolution}/"
+        else:
+            url = self._root_url
+            
+        response = self._client.get(url)
         tree = HTMLParser(response.text)
         
         posts = tree.css(".post")

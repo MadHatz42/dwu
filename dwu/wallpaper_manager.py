@@ -20,8 +20,8 @@ class ImageDownloadError(Exception):
     pass
     
 class WallpaperManager:
-    def __init__(self, root_url: str = 'https://wallpaper-a-day.com') -> None:
-        self._scraper = WallpaperScraper()
+    def __init__(self, root_url: str = 'https://wallpaper-a-day.com', resolution: str | None = None) -> None:
+        self._scraper = WallpaperScraper(root_url=root_url, resolution=resolution)
         self._client = httpx.Client(timeout=30.0)
         self._cache_dir = get_cache_dir()
         self._metadata_path = os.path.join(self._cache_dir, "current_wallpaper.json")

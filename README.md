@@ -44,6 +44,21 @@ sudo apt install pipx
 pipx install git+https://github.com/MadHatz42/dwu.git
 ```
 
+### 2.1 Upgrade DWU (later on)
+
+If you already have DWU installed via `pipx` and want to upgrade to the latest version from GitHub:
+
+```bash
+pipx upgrade --force git+https://github.com/MadHatz42/dwu.git
+```
+
+If that doesn’t pick up changes for some reason, you can reinstall:
+
+```bash
+pipx uninstall dwu
+pipx install git+https://github.com/MadHatz42/dwu.git
+```
+
 ### 3. Set Up Automatic Updates (Optional but Recommended)
 
 After installation, set up automatic hourly wallpaper updates:
@@ -85,6 +100,27 @@ If you like a wallpaper, you can save it!
 dwu --save-dir ~/Wallpapers
 dwu --save
 ```
+
+**Filter by Resolution**
+
+You can filter wallpapers by resolution tag. By default, `dwu --today` fetches from the main page, which includes **all resolutions** (1080p, 1440p, 2160p, etc.).  
+Use these flags if you only want higher-resolution wallpapers:
+
+```bash
+dwu --today --1440p      # Latest 1440p wallpaper
+dwu --today --2160p      # Latest 2160p (4K) wallpaper
+
+# Go back through older high‑res posts
+dwu --back 2 --1440p     # The 3rd most recent 1440p post
+
+# Work with skips within a specific resolution
+dwu --list-skipped --2160p   # List skipped wallpapers from the 4K tag
+```
+
+Notes:
+- You can only use **one** resolution flag at a time.
+- For `--back N` with a resolution flag, `N` means “Nth most recent post for that resolution”,  
+  not “exactly N calendar days ago” (since high‑res posts are not daily on the site).
 
 <h1>Automatic Wallpaper Updates (systemd Timer)</h1>
 If you didn't set up automatic updates during installation, you can do it now. The timer runs `dwu --today` once per hour to check for new wallpapers.

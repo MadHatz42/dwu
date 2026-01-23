@@ -34,6 +34,9 @@ def print_version(ctx, param, value):
 
 @click.option('--credits', is_flag=True, help="Display the artist and source of the current wallpaper. Removes watermark if run")
 
+@click.option('--1440p', 'res_1440p', is_flag=True, help="Only fetch wallpapers from the 1440p tag")
+@click.option('--2160p', 'res_2160p', is_flag=True, help="Only fetch wallpapers from the 2160p tag (4K)")
+
 def main(
     status: bool,
     today: bool,
@@ -45,9 +48,18 @@ def main(
     unskip_all: bool,
     list_skipped: bool,
     credits: bool,
+    res_1440p: bool,
+    res_2160p: bool,
 ):
     try:
-        wallman = WallpaperManager()
+        # Determine resolution from flags (only one can be set)
+        resolution = None
+        if res_1440p:
+            resolution = "1440p"
+        elif res_2160p:
+            resolution = "2160p"
+        
+        wallman = WallpaperManager(resolution=resolution)
         
         if status:
             click.echo("Backend: " + wallman.get_backend_name())
@@ -90,15 +102,27 @@ def main(
             print_wall_feedback(wallman.update_auto())
             
         elif unskip is not None:
-            wall = WallpaperScraper().get_all()[unskip]
+            # Determine resolution for scraper
+            res = None
+            if res_1440p:
+                res = "1440p"
+            elif res_2160p:
+                res = "2160p"
+            wall = WallpaperScraper(resolution=res).get_all()[unskip]
             SkipManager().unskip(wall.img_url)
         
         elif unskip_all:
             SkipManager().unskip_all()
             
         elif list_skipped:
+            # Determine resolution for scraper
+            res = None
+            if res_1440p:
+                res = "1440p"
+            elif res_2160p:
+                res = "2160p"
             skips = SkipManager()
-            walls = WallpaperScraper().get_all()
+            walls = WallpaperScraper(resolution=res).get_all()
             for i, meta in enumerate(walls):
                 click.echo(f"{i} - Day {meta.day}: ", nl=False)
                 if skips.is_skipped(meta.img_url):
