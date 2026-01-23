@@ -28,7 +28,7 @@ This means:
 The recommended way to install `dwu` is using `pipx`. This installs the tool in a clean, isolated environment.
 
 ### 1. Install pipx
-**Arch / EndeavourOS:**
+**Arch / EndeavourOS / CatchyOS / Steam:**
 ```bash
 sudo pacman -S python-pipx
 ```
@@ -67,7 +67,9 @@ After installation, set up automatic hourly wallpaper updates:
 # Get the repository (to access systemd files)
 git clone https://github.com/MadHatz42/dwu.git
 cd dwu
+```
 
+```bash
 # Install the systemd timer (works from repo root)
 ./systemd/install.sh
 ```
