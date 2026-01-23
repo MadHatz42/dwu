@@ -41,7 +41,7 @@ sudo apt install pipx
 ### 2. Install DWU
 
 ```bash
-pipx install git+https://github.com/MadHatz42/dwu.git
+pipx install git+https://github.com/Zoshiao/dwu4kde.git
 ```
 
 ### 2.1 Upgrade DWU (later on)
@@ -49,14 +49,14 @@ pipx install git+https://github.com/MadHatz42/dwu.git
 If you already have DWU installed via `pipx` and want to upgrade to the latest version from GitHub:
 
 ```bash
-pipx upgrade --force git+https://github.com/MadHatz42/dwu.git
+pipx upgrade --force git+https://github.com/Zoshiao/dwu4kde.git
 ```
 
 If that doesn’t pick up changes for some reason, you can reinstall:
 
 ```bash
 pipx uninstall dwu
-pipx install git+https://github.com/MadHatz42/dwu.git
+pipx install git+https://github.com/Zoshiao/dwu4kde.git
 ```
 
 ### 3. Set Up Automatic Updates (Optional but Recommended)
@@ -65,7 +65,7 @@ After installation, set up automatic hourly wallpaper updates:
 
 ```bash
 # Get the repository (to access systemd files)
-git clone https://github.com/MadHatz42/dwu.git
+git clone https://github.com/Zoshiao/dwu4kde.git
 cd dwu
 ```
 
